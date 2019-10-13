@@ -1,0 +1,26 @@
+package main
+
+import "fmt"
+
+func main() {
+	ar := []int{5, 3, 4, 1, -3, 8}
+	var newAr [6]int
+	bigger := 0
+	for index, _ := range ar {
+		back := 1
+		if index > 0 {
+			newAr[index] = 1
+			func() {
+				for ar[index] > ar[index-back] {
+
+					newAr[index] = newAr[index-back] + 1
+					return
+				}
+			}()
+		} else {
+			newAr[index] = 1
+			bigger = ar[index]
+		}
+	}
+	fmt.Println("deneme")
+}

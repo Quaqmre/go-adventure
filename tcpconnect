@@ -1,0 +1,14 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"net"
+)
+
+func main() {
+	conn, _ := net.Dial("tcp", "golang.org:80")
+	fmt.Fprintf(conn, "GET / HTTP/1.0\r\n\r\n")
+	status, _ := bufio.NewReader(conn).ReadString(0) //Golang is the best Language I have used ,U can handle in source code easly,And I found 'EOF' character for ReadString :D
+	fmt.Println(status)
+}

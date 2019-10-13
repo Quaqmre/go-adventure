@@ -1,0 +1,19 @@
+package main
+
+import "time"
+
+func main() {
+	c := make(chan int)
+	go func() {
+		time.Sleep(3)
+		println("deneme")
+		c <- 1
+	}()
+	go while()
+	println(<-c)
+}
+func while() {
+	for true {
+		println("while")
+	}
+}

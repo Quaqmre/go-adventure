@@ -1,0 +1,79 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"time"
+)
+
+func main() {
+	// runtime.GOMAXPROCS(1) // 8 second vs without this line its took 24 sn
+	start := time.Now()
+
+	sayi := 0
+	chl := make(chan int)
+	// go func() {
+	// 	for i := 1; i < 6; i++ {
+	// 		for i := 1; i < 10000000; i++ {
+	// 			chl <- i
+	// 		}
+	// 	}
+	// 	chl <- 0
+	// }()
+	go func() {
+		for k := 1; k < 10000000; k++ {
+			chl <- k
+		}
+		chl <- 0
+	}()
+	go func() {
+		for k := 1; k < 10000000; k++ {
+			chl <- k
+		}
+		chl <- 0
+	}()
+	go func() {
+		for k := 1; k < 10000000; k++ {
+			chl <- k
+		}
+		chl <- 0
+	}()
+	go func() {
+		for k := 1; k < 10000000; k++ {
+			chl <- k
+		}
+		chl <- 0
+	}()
+	go func() {
+		for k := 1; k < 10000000; k++ {
+			chl <- k
+		}
+		chl <- 0
+	}()
+
+	it := 0
+	for mes := range chl {
+		sayi += mes
+		if mes == 0 {
+			it++
+		}
+		if it == 5 {
+			fmt.Println("sayiniz =/s", sayi)
+			break
+		}
+	}
+	close(chl)
+
+	//--Without Channel --\\
+	// for i := 0; i < 5; i++ {
+	// 	for i := 0; i < 10000000; i++ {
+	// 		sayi += i
+	// 	}
+	// }
+	//--Without Channel --\\ 16ms vs 24 sn its huge different channel ones is much slower
+
+	fmt.Println("its took /s", sayi)
+	elapsed := time.Since(start)
+	log.Printf("Binomial took %s", elapsed)
+
+}
