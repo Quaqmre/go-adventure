@@ -1,0 +1,27 @@
+package main
+
+//Beklediğim gibi hepsine aynı adres atanmadı hepsi fatklı bir adresi göstermektedir.
+
+type Buffer struct {
+	x int
+}
+
+func main() {
+	var b *Buffer
+	var g *Buffer
+	var h *Buffer
+	var j *Buffer
+	var x Buffer
+	_ = x
+	_ = g
+	_ = h
+	_ = j
+
+	b = new(Buffer)
+	g = &Buffer{1}
+	h = new(Buffer)
+	j = new(Buffer)
+	x = *b
+	_ = b
+
+}

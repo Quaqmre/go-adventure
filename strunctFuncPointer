@@ -1,0 +1,61 @@
+package main
+
+import (
+	"fmt"
+)
+
+type rectangel struct {
+	c, h int
+}
+
+func (r rectangel) cevre() int {
+	return 2 * 3 * r.c
+}
+
+func (r *rectangel) pcevre() int {
+	return 2 * 3 * r.c
+}
+
+func (r rectangel) degistir() {
+	r.c = 12
+}
+
+func (r *rectangel) pdegistir() {
+	r.c = 31
+}
+
+func main() {
+
+	x := &rectangel{1, 2}
+	y := rectangel{3, 4}
+
+	fmt.Println("düz ref kümesi"+x)
+	a := x.cevre()
+	fmt.Println("cevre ile atanan a"+a)
+
+	fmt.Println()
+
+	fmt.Println("düz hedef kümesi" +y)
+	b := y.pcevre()
+	fmt.Println("pcevreile atanan b"+b)
+
+	fmt.Println("------")
+
+	c := x.pcevre()
+	fmt.Println("ref ile pcevre " +c)
+	fmt.Println("----x--")
+
+	x.degistir("ref ile atanan"+l)
+	fmt.Println(x)
+	x.pdegistir()
+	fmt.Println(x)
+	fmt.Println("-y-----")
+
+	y.degistir()
+	fmt.Println(y)
+
+	y.pdegistir()
+	fmt.Println(y)
+
+
+}

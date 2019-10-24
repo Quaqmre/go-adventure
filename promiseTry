@@ -1,0 +1,76 @@
+package main
+
+// the anotherone good things I guess all kind a go program is great and fealing good
+import (
+	"errors"
+	"fmt"
+)
+
+func main() {
+	po := new(PurchaseOrder)
+	po.Value = 42.25
+
+	SavePO(po, false).Then(func(obj interface{}) error {
+		po := obj.(*PurchaseOrder)
+		fmt.Println("purchase orded saved", po.Number)
+		return errors.New("firs promis failed")
+	}, func(err error) {
+		fmt.Printf("failed po")
+	}).Then(func(obj interface{}) error {
+		fmt.Println("second prmise success")
+		return nil
+	}, func(err error) {
+		fmt.Println("\n second promise failed")
+	})
+	fmt.Scanln()
+}
+
+type Promise struct {
+	successChannel chan interface{}
+	failureChannel chan error
+}
+
+type PurchaseOrder struct {
+	Number int
+	Value  float64
+}
+
+func SavePO(po *PurchaseOrder, shouldFalil bool) *Promise {
+	result := new(Promise)
+
+	result.successChannel = make(chan interface{}, 1)
+	result.failureChannel = make(chan error, 1)
+
+	go func() {
+		if shouldFalil {
+			result.failureChannel <- errors.New("failded")
+		} else {
+			po.Number = 123
+			result.successChannel <- po
+		}
+	}()
+	return result
+}
+
+func (this *Promise) Then(success func(interface{}) error, failure func(error)) *Promise {
+	result := new(Promise)
+
+	result.successChannel = make(chan interface{}, 1)
+	result.failureChannel = make(chan error, 1)
+
+	go func() {
+		select {
+		case obj := <-this.successChannel:
+			newErr := success(obj)
+			if (newErr) == nil {
+				result.successChannel <- obj
+			} else {
+				result.failureChannel <- newErr
+			}
+		case err := <-this.failureChannel:
+			failure(err)
+			result.failureChannel <- err
+		}
+	}()
+	return result
+}

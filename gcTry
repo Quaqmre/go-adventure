@@ -1,0 +1,27 @@
+package main
+
+import (
+	"os"
+	"runtime"
+	"runtime/trace"
+	"time"
+)
+
+func main() {
+	// need permanent allocation to clear see when the heap double its size
+	trace.Start(os.Stdout)
+	defer trace.Stop()
+	var s *[]int
+	tmp := make([]int, 1100000, 1100000)
+	s = &tmp
+
+	var a *[]int
+	for i := 0; i < 9; i++ {
+		tmp := make([]int, 10000, 10000)
+		a = &tmp
+
+		time.Sleep(time.Millisecond)
+	}
+	_ = a
+	runtime.KeepAlive(s)
+}

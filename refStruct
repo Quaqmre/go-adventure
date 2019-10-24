@@ -1,0 +1,25 @@
+package main
+
+import (
+	"fmt"
+)
+
+type pack struct {
+	len, wind int
+}
+
+func main() {
+	x := &pack{1, 2}
+	y := x // referansı gönderilen struct ile değiştirirsen x artık {4,2} olur
+	y.len = 4
+	z := *x // Referans içerisindeki değeri structa eşitlersen bu sayı değişse dahi x değişmemektedir
+	z.len = 4
+
+	fmt.Println(x)
+	//---------------
+	t := new(pack) // referans oluşturmakta new yerine & ifadesi kullanılmalı öneri bu yönde
+	a := t
+	a.len = 78
+	fmt.Println(t)
+
+}
