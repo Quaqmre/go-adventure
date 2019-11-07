@@ -1,0 +1,26 @@
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+
+	c := make(chan int)
+	go func() {
+		for {
+			select {
+			case v := <-c: // case v,ok := <-c: olursa channelin kapalı mı değilmi olduğu anlaşılır
+				fmt.Println(v)
+			}
+		}
+	}()
+	c <- 1
+	c <- 2
+	c <- 3
+	close(c) // Eğer channel kapanaır ve goroutine dinlemeye devam ederse channel full 0 basar
+	//channelin full sıfır basmasını engellemek için channelin 2. parametresine bakılabilir eğer açıksa ok=true kapalıysa false olacaktır.
+	time.Sleep(time.Duration(1000) * 5 * time.Millisecond)
+}

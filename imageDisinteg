@@ -1,0 +1,21 @@
+package main
+
+import (
+	"fmt"
+	"image"
+)
+
+func main() {
+	// infile, _ := imaging.Open("./" + "out.png")
+
+	// dstImage128 := imaging.Resize(infile, 128, 128, imaging.Lanczos)
+
+	// _ = imaging.Save(dstImage128, "./out_example.jpg")
+	m0 := image.NewRGBA(image.Rect(0, 0, 8, 5))
+	m1 := m0.SubImage(image.Rect(1, 2, 5, 5)).(*image.RGBA)
+	fmt.Println(m0.Bounds().Dx(), m1.Bounds().Dx()) // prints 8, 4
+	fmt.Println(m0.Stride == m1.Stride)             // prints true
+	image := new(image.Image)
+	t := image.Bounds()
+
+}

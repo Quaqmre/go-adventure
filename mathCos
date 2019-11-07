@@ -1,0 +1,12 @@
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+func main() {
+	x := int(math.Cos(0.523598776))
+	y := 13
+	fmt.Println(x)
+}

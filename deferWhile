@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// döngüden goroutine bitmeden çıkmakta,
 func main() {
 	defer fmt.Println("çıktım ula")
 	go func() {

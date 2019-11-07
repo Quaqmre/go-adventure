@@ -1,0 +1,28 @@
+package main
+
+import (
+	"os"
+	"text/template"
+)
+
+func main() {
+	tmpl := `{{ range $k, $v := . }}Key:{{ $k }}, Value:{{ $v }}, {{ end }}`
+	t := template.New("hello")
+	mp := map[interface{}]string{
+		3:   "3",
+		"a": "a",
+		2:   "2",
+		"c": "c",
+		1:   "1",
+		"b": "b",
+	}
+
+	tt, err := t.Parse(tmpl)
+	if err != nil {
+		panic(err)
+	}
+
+	if err = tt.Execute(os.Stdout, &mp); err != nil {
+		panic(err)
+	}
+}

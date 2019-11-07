@@ -1,0 +1,53 @@
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+type People struct {
+	Name string
+}
+
+var wg sync.WaitGroup
+
+func main() {
+	var mr sync.RWMutex
+	// var m sync.Mutex
+	var people People
+	people.Name = "akif"
+	wg.Add(8)
+	for i := 0; i < 8; i++ {
+		// go readPeople(&people, &m) // rw mutex ile okumak için beklemek zorunda değiliz direk olarak okunabilmekte.
+		// go readPeopleSimpleMutex(&people, &m) //normal mutex ile 2 şer saniye okumak için bekliyoruz metot 16 saniyede bitiyor.
+		if i < 7 {
+			go readPeople(&people, &mr)
+		} else {
+			go writePeople(&people, &mr)
+		}
+	}
+	wg.Wait()
+}
+func readPeople(p *People, m *sync.RWMutex) {
+	defer wg.Done()
+	m.RLocker()
+	fmt.Println("isim=", p.Name)
+	time.Sleep(2 * time.Second)
+	m.RUnlock()
+}
+func readPeopleSimpleMutex(p *People, m *sync.Mutex) {
+	defer wg.Done()
+	m.Lock()
+	fmt.Println("isim=", p.Name)
+	time.Sleep(2 * time.Second)
+	m.Unlock()
+}
+func writePeople(p *People, m *sync.RWMutex) {
+	defer wg.Done()
+	m.Lock()
+	p.Name = "delizüleyha"
+	fmt.Println(p.Name)
+	time.Sleep(3 * time.Second)
+	m.Unlock()
+}

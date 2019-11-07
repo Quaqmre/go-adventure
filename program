@@ -1,0 +1,41 @@
+package main
+
+import (
+	"fmt"
+
+	"github.com/veandco/go-sdl2/sdl"
+)
+
+func main() {
+	window, err := sdl.CreateWindow("myGame", sdl.WINDOWPOS_UNDEFINED, sdl.WINDOWPOS_UNDEFINED, 800, 600, sdl.WINDOW_SHOWN)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer window.Destroy()
+	renderer, err := sdl.CreateRenderer(window, -1, sdl.RENDERER_ACCELERATED)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer renderer.Destroy()
+
+	tex, err := renderer.CreateTexture(sdl.PIXELFORMAT_ABGR8888, sdl.TEXTUREACCESS_STREAMING, 800, 600)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer tex.Destroy()
+	pixel := make([]byte, 800*600*4)
+	for i := 0; i < 800*600*4; i++ {
+		if i%4 == 0 {
+			pixel[i] = byte(i % 255)
+			pixel[i+1] = byte(i % 255)
+			pixel[i+2] = 0
+
+		}
+	}
+	tex.Update(nil, pixel, 800*4)
+	renderer.Copy(tex, nil, nil)
+	renderer.Present()
+	sdl.Delay(2000)
+
+}

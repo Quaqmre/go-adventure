@@ -1,0 +1,23 @@
+package main
+
+import (
+	"sync"
+	"time"
+
+	"github.com/fatih/color"
+)
+
+func main() {
+
+	var mu sync.Mutex
+	go func() {
+		mu.Lock()
+		color.White("it is white")
+		mu.Unlock()
+	}()
+	mu.Lock()
+	color.Magenta("it is şaban ..")
+	mu.Unlock()
+	time.Sleep(1000 * time.Millisecond)
+
+}

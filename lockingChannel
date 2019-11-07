@@ -1,0 +1,27 @@
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	channel := make(chan bool, 1)
+	var w sync.WaitGroup
+	for i := 0; i < 8; i++ {
+		w.Add(1)
+		go worker(i, channel, &w)
+	}
+	w.Wait()
+}
+
+func worker(id int, lock chan bool, wg *sync.WaitGroup) {
+	defer wg.Done()
+	fmt.Printf("%d worker want to lock \n", id)
+	lock <- true
+	fmt.Printf("%d worker  lock the chan \n", id)
+	time.Sleep(500 * time.Millisecond)
+	<-lock
+	fmt.Printf("%d worker  unlock the chan \n", id)
+}

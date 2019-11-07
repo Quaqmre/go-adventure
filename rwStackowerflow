@@ -1,0 +1,44 @@
+package main
+
+import (
+	"fmt"
+	"io"
+	"strconv"
+	"sync"
+	"time"
+)
+
+func main() {
+	io.ReadSeeker()
+	download()
+	a := 0
+
+	lock := sync.RWMutex{}
+
+	for i := 1; i < 10; i++ {
+		go func(i int) {
+			// Buradaki 10 fonsiyonda execute edilir ancak sıraya konmaktadır 10 tane lock sırası vardır.
+			lock.Lock()
+			fmt.Printf("Lock: from go routine %d: a = %d\n", i, a)
+			time.Sleep(time.Second)
+			lock.Unlock()
+		}(i)
+	}
+	time.Sleep(4 * time.Second) // locklar kendi aralarında işlenirken araya giren read lockları direkman okunmaktadır.
+	//readlockundan kurtulamayan fonksiyon değiştirilmek üzere tekrar locklanamaz
+
+	b := 0
+
+	for i := 11; i < 20; i++ {
+		_, _ = strconv.ParseInt("-42", 10, 64)
+		go func(i int) {
+			// buradaki readlocklarda execute edilir 10 tanesi,
+			//Lock sırasına göre ilk giren execute edilirken readler sıraya konur ve ilk olarak read fonksiyonların hepsi çalıştırılır.
+			lock.RLock()
+			fmt.Printf("RLock: from go routine %d: b = %d\n", i, b)
+			time.Sleep(time.Second * 5)
+			lock.RUnlock()
+		}(i)
+	}
+	<-time.After(time.Second * 10)
+}

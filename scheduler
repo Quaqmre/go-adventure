@@ -1,0 +1,17 @@
+package main
+
+import (
+	"fmt"
+	"runtime"
+)
+
+// gosched time.sleep'e benzer ,goroutine uyumaya geçtiğini belirtelerek go'ya çalıştırması gorute schedule etmesini söylemekteyiz,
+// Beklenen Hi bro in anaunmus func yazmasını beklemeliyiz = sonuc : bazen yazmakta baazen yazmamaktadır ancak schedul koymayınca hiç yazmamaktadır.
+func main() {
+	fmt.Println("in main firt")
+	go func() {
+		fmt.Println("Hi bro in anounmus func")
+	}()
+	fmt.Println("in main method Hello")
+	runtime.Gosched()
+}

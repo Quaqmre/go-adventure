@@ -1,0 +1,29 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+	"os"
+	"strings"
+)
+
+func main() {
+
+	arr := os.Args[1:]
+	if result, err := Concat(arr...); err != nil {
+		// if result, err := Concat(arr); err != nil {
+		fmt.Printf("Error: %s\n", err)
+	} else {
+		fmt.Printf("Concated string : '%s'\n", result)
+	}
+}
+
+// func Concat(parts []string) (string, error) { 2 comment arrayin farklı kullanımını gösterir
+func Concat(parts ...string) (string, error) {
+	c := parts
+	_ = c
+	if len(parts) == 0 {
+		return "", errors.New("No strings supplied")
+	}
+	return strings.Join(parts, ""), nil
+}

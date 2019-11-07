@@ -1,0 +1,157 @@
+package main
+
+import (
+	"fmt"
+	"net/http"
+)
+
+func displayError(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+
+	fmt.Fprint(w, `<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Go in Practice | A Cookbook of Go Recipes</title>
+    <link rel="stylesheet" href="assets/gip.css" />
+    <meta keywords="Go, golang, book, Manning Publications, cookbook, recipes">
+    <meta description="Go in Practice is a cookbook style book of real-world techiques to develop Go applications.">
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:creator" content="@mattfarina" />
+    <meta property="og:url" content="http://goinpracticebook.com" />
+    <meta property="og:title" content="Go in Practice the book" />
+    <meta property="og:description" content="Go in Practice is a cookbook style book of real-world techiques to develop Go applications." />
+    <meta property="og:image" content="http://goinpracticebook.com/assets/cover.png" />
+  </head>
+  <body>
+    <div class="content" itemscope itemtype="http://schema.org/Product">
+      <div class="row small-center">
+        <h1 itemprop="name">Go in Practice</h1>
+      </div>
+      <div class="banner">
+        <div class="row small-center">
+          <div class="column-image">
+            <img itemprop="image" alt="Go in Practice cover" src="assets/cover.png">
+          </div>
+          <div class="inner-content">
+            <h3>A cookbook of techniques for Go development</h3>
+            <p class="gip-subheader" itemprop="description">
+              Go in Practice covers 70 real-world techniques. Techniques are broken down into
+              problems, solutions, and discussions. This is a practical handbook with strategies
+              for day-to-day application development.
+              </style>
+            </p>
+            <a itemprop="url" href="http://amzn.to/2cfE0Pb" class="button">Buy on Amazon</a>
+            <a itemprop="url" href="https://www.manning.com/books/go-in-practice" class="button">Buy E-Book</a>
+          </div>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="column-1">
+        <blockquote><p>An invaluable resource you can start using on day one to build
+          high-performance, real-world web applications.</p>
+          <footer>– Gary A. Stafford, Thoughtworks</footer>
+        </blockquote>
+      </div>
+      <div class="column-2">
+          <blockquote><p>A great combination of simple examples with thorough explanations
+            of practical concepts in Go.</p>
+            <footer>– Brandon Titus, Mercury</footer>
+          </blockquote>
+      </div>
+    </div>
+
+    <div class="row" id="techniques">
+      <h2>Techniques</h2>
+      <p>Most of the chapters contain topic introductions followed by a series of recipe like techniques.
+      Each technique shares a recipe for solving a problem with a discussion on the problem and solution.</p>
+
+      <p>The book contains techniques for:</p>
+      <div class="column-1">
+        <ul class="gip-techniques gip-no-bottom-margin">
+          <li>Handling Linux style flags in your application.</li>
+          <li>CLI commands and sub-commands.</li>
+          <li>How to handle URL routing.</li>
+          <li>Multiple ways to handle application configuration.</li>
+          <li>Patterns for working with HTML Templates.</li>
+          <li>Serving static assets.</li>
+        </ul>
+      </div>
+      <div class="column-2">
+        <ul class="gip-techniques">
+          <li>Working with REST APIs (including version handling).</li>
+          <li>Communicating between cloud services.</li>
+          <li>Generative and performance testing.</li>
+          <li>Monitoring the Go runtime in your applications.</li>
+          <li>Building multi-cloud compatible applications.</li>
+          <li>And many more...</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row" id="sample-chapter">
+      <h2>Downloads</h2>
+
+      <div class="column-1">
+        <img src="assets/sample.png">
+      </div>
+      <div class="column-2">
+        <p>Two sample chapters and the source code are available for download:</p>
+        <p>
+          <a class="button" href="https://manning-content.s3.amazonaws.com/download/3/54700ff-06a5-4307-b323-786293e5a4c2/Sample01.pdf">Chapter 1</a>
+          <a class="button" href="https://manning-content.s3.amazonaws.com/download/3/6f40d42-4b04-40c7-b306-d5c71e40d3ff/Sample03.pdf">Chapter 3</a>
+          <a class="button" href="github.com/Masterminds/go-in-practice">Source Code</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="row" id="about-authors">
+      <h2>About the Authors</h2>
+
+      <div class="column-1">
+        <h3>Matt Butcher</h3>
+        <p>Matt is a core contributor to <a href="http://github.com/kubernetes/helm">Helm</a> at <a href="http://deis.com">Deis</a>.
+          He is the author of several books on programming and technology, and is a frequent open source contributor.
+          Matt holds a Ph.D. in philosophy, and has taught both Philosophy and Computer Science at Loyola University Chicago.
+          You can find him online at <a href="https://twitter.com/technosophos">@technosophos</a> and <a href="http://technosophos.com">technosophos.com</a>.
+        </p>
+      </div>
+
+      <div class="column-2">
+        <h3>Matt Farina</h3>
+        <p>Matt is a Principal Engineer in the Advanced Technology Group at Hewlett Packard Enterprise. He is an author, speaker, and regular
+          contributor to open source. Matt has been developing software for over 25 years.  You can find him online at
+          <a href="https://twitter.com/mattfarina">@mattfarina</a> and <a href="http://mattfarina.com">mattfarina.com</a>.</p>
+      </div>
+    </div>
+
+        <footer class="row">
+          <div class="large-12 columns">
+            <hr>
+            <p>This is a promotional website for the Manning Publications Book "Go In Practice".</br>
+            © Go In Practice Authors. All rights reserved.</p>
+          </div>
+        </footer>
+
+    </div>
+
+    <script>
+    //   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    //   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    //   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    //   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      //
+    //   ga('create', 'UA-63185016-1', 'auto');
+    //   ga('send', 'pageview');
+    </script>
+  </body>
+</html>
+	`)
+}
+
+func main() {
+	http.HandleFunc("/", displayError)
+	http.ListenAndServe(":8080", nil)
+}
