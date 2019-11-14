@@ -1,0 +1,25 @@
+/*
+Örnekte listen edilen bir sokette Accept metodu denenecek acaba bir connection wait ediliyormu ?
+*/
+
+package main
+
+import (
+	"io"
+	"log"
+	"net"
+)
+
+func main() {
+	nt, _ := net.Listen("tcp", ":5022") //dinlemek istediğin soketi belirliyoruz
+	conn, _ := nt.Accept()              // bir requesti bekliyor gelene kadar blockluyor
+	recvBuffer := make([]byte, 256)
+	for {
+		_, err := conn.Read(recvBuffer) // okumak için blokluyor for'u devam ettirmiyor
+		if err == io.EOF {
+			log.Println(err)
+			return
+		}
+		log.Println("asdssa")
+	}
+}

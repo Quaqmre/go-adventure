@@ -27,8 +27,8 @@ func main() {
 	pixel := make([]byte, 800*600*4)
 	for i := 0; i < 800*600*4; i++ {
 		if i%4 == 0 {
-			pixel[i] = byte(i % 255)
-			pixel[i+1] = byte(i % 255)
+			pixel[i] = byte(255)
+			pixel[i+1] = byte(255)
 			pixel[i+2] = 0
 
 		}
@@ -36,6 +36,6 @@ func main() {
 	tex.Update(nil, pixel, 800*4)
 	renderer.Copy(tex, nil, nil)
 	renderer.Present()
-	sdl.Delay(2000)
+	sdl.Delay(10000)
 
 }
