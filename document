@@ -1,0 +1,69 @@
+package main
+
+import (
+	"io/ioutil"
+	"log"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"runtime"
+
+	"github.com/russross/blackfriday"
+)
+
+func main() {
+	arch := runtime.GOOS
+
+	if len(os.Args) != 2 {
+		log.Fatal("Usage: mdclip filename.md")
+	}
+
+	arg := os.Args[1]
+
+	fp, err := filepath.Abs(arg)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	dat, err := ioutil.ReadFile(fp)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	output := blackfriday.MarkdownCommon([]byte(dat))
+	toClipboard(output, arch)
+}
+
+func toClipboard(output []byte, arch string) {
+	var copyCmd *exec.Cmd
+
+	// Mac "OS"
+	if arch == "darwin" {
+		copyCmd = exec.Command("pbcopy")
+	}
+	// Linux
+	if arch == "linux" {
+		copyCmd = exec.Command("xclip", "-selection", "c")
+	}
+
+	in, err := copyCmd.StdinPipe()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := copyCmd.Start(); err != nil {
+		log.Fatal(err)
+	}
+
+	if _, err := in.Write([]byte(output)); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := in.Close(); err != nil {
+		log.Fatal(err)
+	}
+
+	copyCmd.Wait()
+}

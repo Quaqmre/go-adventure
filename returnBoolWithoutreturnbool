@@ -1,0 +1,18 @@
+package main
+
+import "fmt"
+
+func returnerBoolAlone() (isAgree bool) {
+	return isAgree
+}
+
+func returnerBool() bool {
+	isAgree := false
+	return isAgree
+}
+
+func main() {
+	a := returnerBoolAlone()
+	_ = returnerBool()
+	fmt.Println(a)
+}

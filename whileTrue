@@ -1,0 +1,31 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func sender(channel chan<- string) {
+
+	for {
+		channel <- "ali"
+		fmt.Println("ali gönderildi")
+	}
+}
+
+func receiver(channel <-chan string) {
+	for {
+		message := <-channel
+		fmt.Println(message)
+		time.Sleep(5 * time.Second)
+		fmt.Println("ancak 1 tane sini bitirdim")
+	}
+}
+
+func main() {
+	scott := make(chan string)
+	go sender(scott)
+	go receiver(scott)
+	time.Sleep(100 * time.Second)
+
+}

@@ -1,0 +1,19 @@
+package main
+
+import (
+	"fmt"
+	"time"
+
+	"github.com/atotto/clipboard"
+)
+
+func main() {
+	for {
+		text, _ := clipboard.ReadAll()
+		fmt.Println(text)
+		time.Sleep(2 * time.Second)
+	}
+
+	// Output:
+	// 日本語
+}

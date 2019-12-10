@@ -1,0 +1,22 @@
+package main
+
+import "fmt"
+
+type Person struct {
+	name string
+	age  int
+}
+
+func (p *Person) changeAge(newAge int) {
+	p.age = newAge
+}
+
+func main() {
+	t := Person{"ali", 10}
+	t.changeAge(31)
+	fmt.Println(t.age)
+	a := []int{1, 2, 3}
+	h := a
+	a = append(a, 6)
+	fmt.Println(h)
+}

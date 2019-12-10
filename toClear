@@ -1,0 +1,54 @@
+// package main
+
+// import (
+// 	"fmt"
+// 	"math/rand"
+// 	"runtime"
+
+// 	"github.com/google/btree"
+// )
+
+// func main() {
+// 	var stats runtime.MemStats
+// 	vals := rand.Perm(1000000)
+// 	for i := 0; i < 10; i++ {
+// 		runtime.GC()
+// 	}
+// 	fmt.Println("-------- BEFORE ----------")
+// 	PrintMemUsage()
+// 	fmt.Printf("%+v\n", stats)
+// 	fmt.Println("--------------------------")
+
+// 	tr := btree.New(8)
+// 	for _, v := range vals {
+// 		tr.ReplaceOrInsert(btree.Int(v))
+// 	}
+// 	// clearer := make([]int, 16)
+
+// 	fmt.Println("-------- AFTER ----------")
+// 	PrintMemUsage()
+// 	fmt.Printf("%+v\n", stats)
+// 	// for len(bigList) > 0 {
+// 	// 	bigList = bigList[copy(bigList, clearer):]
+// 	// }
+// 	// for i := 0; i < 10; i++ {
+// 	// 	runtime.GC()
+// 	// }
+// 	fmt.Println("-------- AFTER GC ----------")
+// 	PrintMemUsage()
+// 	fmt.Printf("%+v\n", stats)
+
+// }
+// func PrintMemUsage() {
+// 	var m runtime.MemStats
+// 	runtime.ReadMemStats(&m)
+// 	// For info on each, see: https://golang.org/pkg/runtime/#MemStats
+// 	fmt.Printf("Alloc = %v MiB", bToMb(m.Alloc))
+// 	fmt.Printf("\tTotalAlloc = %v MiB", bToMb(m.TotalAlloc))
+// 	fmt.Printf("\tSys = %v MiB", bToMb(m.Sys))
+// 	fmt.Printf("\tNumGC = %v\n", m.NumGC)
+// }
+
+// func bToMb(b uint64) uint64 {
+// 	return b / 1024 / 1024
+// }

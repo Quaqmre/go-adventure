@@ -1,0 +1,14 @@
+package main
+
+import "fmt"
+
+type okul struct {
+	name  string
+	level int
+}
+
+func main() {
+	t := okul{name: "yusuf", level: 2}
+	f := fmt.Sprintf("%v", t)
+	fmt.Println(f)
+}

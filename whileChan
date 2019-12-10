@@ -1,0 +1,14 @@
+package main
+
+import "fmt"
+
+func main() {
+	t := make(chan int)
+
+	t <- 1
+	go func() {
+		for i := range t {
+			fmt.Println(i)
+		}
+	}()
+}

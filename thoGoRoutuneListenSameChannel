@@ -1,0 +1,37 @@
+//Deneme nedeni eğer bir channeli 2 goroutune dinloyrsa ve ikisininde bir işlem yapmasını istiyorsak ne yapmamız gerekmekte?
+//Eğer biri tüketirse kendi tüketmesi bitmeden bir kez daha true gönderebilir ve diğer kanal bunu yakalayabilir,
+//Ama saçma olan şey bu doneChan ise 2 goroutune bunları tüketirken 3 true bağyrağı gönderilir buda çok saçma
+//Best practice olarak bir channeli dinleyen 2 veya daha fazla tüketici warsa ne yapılmalıdır ?
+
+//***Kesinlikle Bunu öğrenip yorumunu altına yaz...
+
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ch := make(chan bool)
+
+	go func() {
+		for {
+			a := <-ch
+			fmt.Println("1. döngüdeyim", a)
+			ch <- true
+			return
+		}
+	}()
+	go func() {
+		for {
+			b := <-ch
+			close(ch)
+			fmt.Println("2. döngüdeyim", b)
+			return
+		}
+	}()
+	ch <- true
+	time.Sleep(4 * time.Second)
+	fmt.Println("çıktım baboli")
+}

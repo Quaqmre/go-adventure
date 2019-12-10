@@ -1,0 +1,40 @@
+package main
+
+import "fmt"
+
+type Iterator interface {
+	Value() interface{}
+	Index() int
+	HasNextValue() bool
+	Next()
+}
+
+type ArrayIterator struct {
+	array []interface{}
+	index int
+}
+
+func (a *ArrayIterator) Value() interface{} {
+	return a.array[a.index]
+}
+
+func (a *ArrayIterator) Index() int {
+	return a.index
+}
+func (a *ArrayIterator) HasNextValue() bool {
+	return a.index+1 <= len(a.array)
+}
+
+func (a *ArrayIterator) Next() {
+	if a.HasNextValue() {
+		a.index++
+	}
+}
+
+func main() {
+	array := []interface{}{10, 2, 40}
+	iterator := ArrayIterator{array, 0}
+	for it := iterator; it.HasNextValue(); it.Next() {
+		fmt.Println(it.Value())
+	}
+}

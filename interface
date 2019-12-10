@@ -1,0 +1,87 @@
+package main
+
+import "fmt"
+
+func main() {
+	yusufziya := Okul{name: "yusufziya"}
+	akdeniz := Hastahane{name: "akdeniz"}
+
+	listem := []bakanlik{Okul{name: "suha"}, Hastahane{name: "akif"}, Bakkal{name: "erdalBakkal"}}
+
+	for _, x := range listem {
+		x.Modelinİsmi()
+	}
+
+	modelinİsmi(yusufziya)
+	fmt.Println()
+	yusufziya.Modelinİsmi()
+	akdeniz.Modelinİsmi()
+}
+
+type bakanlik interface {
+	Modelinİsmi()
+}
+
+type Bakkal struct {
+	name string
+}
+
+type Okul struct {
+	name string
+}
+
+type Hastahane struct {
+	name string
+}
+
+func modelinİsmi(m Okul) { // dümdüz metot Bas geç
+	fmt.Println(m.name)
+}
+
+func (t Okul) Modelinİsmi() {
+	fmt.Println(t.name)
+}
+
+func (h Hastahane) Modelinİsmi() {
+	fmt.Println(h.name)
+}
+func (b Bakkal) Modelinİsmi() {
+	fmt.Println(b.name)
+}
+
+// func main() {
+// 	actors := []Actor{Tank{"T-80", 100}, Player{"Gun Ball"}}
+// 	for _, a := range actors {
+// 		a.SaySomething("hello")
+// 		a.Move("left")
+// 	}
+// }
+
+// type Actor interface {
+// 	Move(direction string)
+// 	SaySomething(speach string)
+// }
+
+// type Tank struct {
+// 	model string
+// 	power int
+// }
+
+// func (t Tank) SaySomething(s string) {
+// 	fmt.Printf("'%s' says From tank : %s - powerim %d\n", t.model, s, t.power)
+// }
+
+// func (t Tank) Move(d string) {
+// 	fmt.Printf("'%s' move to %s\n", t.model, d)
+// }
+
+// type Player struct {
+// 	name string
+// }
+
+// func (p Player) Move(d string) {
+// 	fmt.Printf("'%s' move to %s\n", p.name, d)
+// }
+// func (p Player) SaySomething(s string) {
+// 	fmt.Printf("'%s' says from Player %s\n", p.name, s)
+// }

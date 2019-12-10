@@ -12,9 +12,7 @@
             "program": "${fileDirname}",
             "env": {},
             "args": [
-                "a",
-                "b",
-                "v"
+                "filename.md"
             ]
         }
     ]

@@ -1,0 +1,21 @@
+package main
+
+import (
+	"bytes"
+	"crypto/sha1"
+	"encoding/binary"
+	"fmt"
+)
+
+type myStruct struct {
+	ID   string
+	Data string
+}
+
+func main() {
+	var bin_buf bytes.Buffer
+
+	x := myStruct{"1", "Hello"}
+	binary.Write(&bin_buf, binary.BigEndian, x)
+	fmt.Printf("% x", sha1.Sum(bin_buf.Bytes()))
+}

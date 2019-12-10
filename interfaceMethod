@@ -1,0 +1,19 @@
+package main
+
+import (
+	"fmt"
+)
+//interface compile timeda gelen veri tipi belli değil 
+//run timeda ayıklayarak gelen tipe göre metotlar çalıştırılır.
+func main() {
+	fmt.Println("asd")
+	interfacer(5, "qwe", true, .19)
+}
+
+func interfacer(t ...interface{}) {
+	for _, q := range t {
+
+		a := fmt.Sprintf("%T", q)
+		fmt.Println(a)
+	}
+}

@@ -1,0 +1,54 @@
+package main
+
+import "fmt"
+
+//Command single command object
+type Command struct {
+	person  *Person
+	command func()
+}
+
+//NewCommand will return new command
+func NewCommand(p *Person, c func()) Command {
+	return Command{p, c}
+}
+
+//Person with given command and name
+type Person struct {
+	name string
+	cmd  Command
+}
+
+//NewPerson will return new Person struct
+func NewPerson(name string, command Command) Person {
+	return Person{name, command}
+}
+
+//Talk specspik person to inside
+func (p *Person) Talk() {
+	fmt.Println("%s talking", p.name)
+	p.cmd.Execute()
+}
+
+//Gossip person to another
+func (p *Person) Gossip() {
+	fmt.Println("%s gossiping", p.name)
+	p.cmd.Execute()
+}
+
+//Listen person to another
+func (p *Person) Listen() {
+	fmt.Println("%s listening", p.name)
+}
+
+//Execute method
+func (c *Command) Execute() {
+	c.command()
+}
+
+func main() {
+	ayse := NewPerson("Ayse", NewCommand(nil, nil))
+	fatma := NewPerson("Fatma", NewCommand(&ayse, ayse.Listen))
+	ali := NewPerson("Ali", NewCommand(&fatma, fatma.Gossip))
+	ali.Talk()
+}

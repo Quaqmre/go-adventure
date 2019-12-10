@@ -1,0 +1,40 @@
+package main
+
+import (
+	"fmt"
+	"strconv"
+)
+//Handler generic bir value ve bu valuenun Handler adında bir metodu var
+//Handler objesinin her dönüş tibi için overright edilmiş bir Handle Metodu olmalıdır.
+
+// Handler defined a handler for handling a given handleID.
+type Handler interface {
+	Handle(i int) string
+}
+
+type handler struct {
+	handlerID int
+	next      Handler
+	name      string
+}
+
+// NewHandler returns a new Handler.
+func NewHandler(name string, h Handler, i int) Handler {
+	return &handler{i, h, name}
+}
+
+// Handle handles a given handleID.
+func (i *handler) Handle(index int) string {
+	if i.handlerID == index {
+		return i.name + " handled " + strconv.Itoa(i.handlerID)
+	}
+	return i.next.Handle(index)
+}
+
+func main() {
+	t1 := NewHandler("ali", nil, 1)
+	t2 := NewHandler("arat", t1, 2)
+	t3 := NewHandler("erbil", t2, 3)
+	a := t3.Handle(1)
+	fmt.Println(a)
+}

@@ -1,0 +1,54 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	// t := "123"
+	// z := "qwe"
+	// h := []string{t, z}
+
+	// for _, l := range h {
+	// 	for _, k := range l {
+	// 		fmt.Println(string(k))
+	// 	}
+	// }
+	a := make(chan int)
+	b := make(chan string)
+	go func() {
+		a <- 54
+		a <- 53
+		b <- "asd"
+		b <- "ggg"
+	}()
+
+	go func() {
+		time.Sleep(5 * time.Second)
+		for {
+			select {
+			case j := <-a:
+				fmt.Println(j)
+			case h := <-b:
+				fmt.Println(h)
+			}
+		}
+	}()
+
+	time.Sleep(10 * time.Second)
+
+}
+
+// a := make([]string, 256)
+// for _, i := range t {
+// 	if i >= 0 && i < 256 {
+// 		a[i] = string(i)
+// 	}
+// }
+// for k := range a {
+// 	if k != ' ' {
+// 		fmt.Printf(string(k))
+// 	}
+// }
+// }
