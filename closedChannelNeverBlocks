@@ -1,0 +1,35 @@
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+/*
+Burada 1 goroutune finish channeli dinlemekt ve bende bir kez true göndererek o gourutinenin bitmesini sağlıyorum,
+Ancak waitWithChannel örneğindeki 10 goroutine için 10 kere finish channeline true göndermem gerekmekte,
+Buda inanılmaz bir mantık hatasına sahip bu yüzden hepsine teker teker true göndermek yerine
+channeli kapatırsam tüm goroutinelere sınırsız sayıda bilgi geçildiği için hepsi kendini kapatacaktır.
+Buda goroutinelerin kolay yönetilebilmesini sağlamaktadır.
+wait group ile tüm go routineler kendini wait.Add() eklerler select statementindeki <-finish : case'sinde
+wait.Done() diyerek goroutinelerin bitmesi gerektiği bilgisi verilmektedir.
+??? Soru işareti inanılmaz bir managing problemi doğurmaktadır bu, ?? kod yazımına inanılmaz dikkat edilmektedir.
+*/
+func main() {
+	finish := make(chan bool)
+	var done sync.WaitGroup
+	done.Add(1)
+	go func() {
+		select {
+		case <-time.After(1 * time.Hour):
+		case <-finish:
+		}
+		done.Done()
+	}()
+	t0 := time.Now()
+	finish <- true // send the close signal if finish receaving by multiple goroutines you should send multiple times data in finish channel it is real hard to maintaine
+	//close(finis) //=> it makes easy to manage all gorutines to finish own prosess
+	done.Wait() // wait for the goroutine to stop
+	fmt.Printf("Waited %v for goroutine to stop\n", time.Since(t0))
+}

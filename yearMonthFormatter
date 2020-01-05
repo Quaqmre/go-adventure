@@ -1,0 +1,32 @@
+package main
+
+import "fmt"
+
+func main() {
+	var b [1]byte
+	b[0] = byte(3)
+
+	buff := new([]byte) // bir array adresi oluşturduk ama bunun üzerinde 4 byte sonra bir array pointeri daha oluşturak
+	////birbirlerinin üzerine yazıcaklarmı hakikatten merak konusu ???? henüz cevaplayamadım.
+
+	itoa(buff, 3, 4)
+	fmt.Println(string(*buff))
+
+}
+
+func itoa(buf *[]byte, i int, wid int) { //Çok komik ya golang içinde böyle kodların olması :D
+	//2018 sayısını parçalamaktadır,2018-2010 => 8 byte(48+8)=>52 yani 8 rakamı b[19]=8 şeklinde atanmaktadır.
+	// Assemble decimal in reverse order.
+	var b [20]byte
+	bp := len(b) - 1
+	for i >= 10 || wid > 1 {
+		wid--
+		q := i / 10
+		b[bp] = byte('0' + i - q*10)
+		bp--
+		i = q
+	}
+	// i < 10
+	b[bp] = byte('0' + i)
+	*buf = append(*buf, b[bp:]...) // sondan başa doğru eklenmektedir bunun nedeni son 3 elemandan sonu buff'a aktarılır gereksiz byte işgal edilmez
+}

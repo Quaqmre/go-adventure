@@ -1,0 +1,15 @@
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	// buffer := new(bytes.Buffer)
+	// buffer.Write([]byte{97, 97, 97, 97, 97, 97})
+	// fmt.Println(buffer.String())
+
+	s := "asd"
+	bytes := []byte(s)
+	fmt.Println(bytes)
+}

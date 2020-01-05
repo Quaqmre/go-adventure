@@ -1,0 +1,18 @@
+package main
+
+import (
+	"bytes"
+	"fmt"
+)
+
+func main() {
+	reader := bytes.NewBufferString("abcdefsda") // yeni bir reader objesi döner current indexi ve yanında bir çok okuma yazma metoduda gelir çok iyi
+	buff := make([]byte, reader.Len())           // string arrayinin lengti kadar bir buffer oluştururuz
+	a, _ := reader.ReadByte()
+	x, _ := reader.Read(buff) // reader içinde bulunan ve okuma sırasına göre sıradan başlayarak tüm arrayi döner Bu örnekte ilk bytı atlayarak okur
+	b, _ := reader.ReadByte()
+	fmt.Println(a)
+	fmt.Println(b)
+	fmt.Println(buff)
+	fmt.Println(x)
+}

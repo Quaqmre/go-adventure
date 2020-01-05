@@ -1,0 +1,27 @@
+package main
+
+import "fmt"
+
+type UserService interface {
+	User(int) int
+	GetCustomer(int)
+}
+
+type CacheUser struct {
+}
+
+func (e CacheUser) User(a int) int {
+	return 0
+}
+func (e CacheUser) GetCustomer(a int) {
+}
+
+func main() {
+	a := CacheUser{} // interface olarak kullanılabilmesi için tüm metotlarını implemente etmesi gerekmektedir.
+	Baklava(a)
+}
+func Baklava(s UserService) {
+	fmt.Println("*******")
+	b, ok := s.(CacheUser)
+	_, _ = b, ok
+}

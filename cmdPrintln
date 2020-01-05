@@ -1,0 +1,14 @@
+package main
+
+import (
+	"fmt"
+	"os"
+	"os/exec"
+)
+
+func main() {
+	cmd := exec.Command("go", "run", "cmdPrintln.go")
+	fmt.Println("--")
+	cmd.Stdout = os.Stdout
+	cmd.Run()
+}

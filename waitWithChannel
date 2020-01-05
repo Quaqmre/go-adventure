@@ -1,0 +1,29 @@
+package main
+
+import (
+	"fmt"
+)
+
+/*
+burada bir çalıştırdığımız go routine kadar bir channelde bekleme yapmamız gerekmektedir.
+10 goroutune done channeline yazmaktadır,
+Ve 10 tane yazılana kadar kodumuz bloklanmaktadır.Yoksa tüm işlemlerin bitmesini bekliyemeden
+uygulamamız bitmektedir,
+Soru peki 11 gouroutine yazsa ve sadece 10 kere receive etseydik ne olurdu ??? P+1 de bekler ve hiç bir zaman okunamadan
+Uygulama son bulur.
+Closed Channel never blocks
+*/
+func main() {
+	P := 10
+	done := make(chan bool)
+	for i := 0; i < P+12; i++ {
+		go func(x int) {
+			fmt.Println(x)
+			done <- true
+		}(i)
+	}
+	for j := 0; j < P+1; j++ {
+		<-done
+
+	}
+}

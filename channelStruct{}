@@ -1,0 +1,24 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	str := make(chan struct{})
+	var chn chan struct{}
+
+	fmt.Println(chn)
+
+	go func() {
+
+		select {
+		case a := <-str:
+			fmt.Println(a)
+		}
+	}()
+
+	str <- struct{}{}
+	time.Sleep(time.Second * 5)
+}

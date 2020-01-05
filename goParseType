@@ -1,0 +1,37 @@
+/*
+Type Parsing te bir zeroValue structi pointer'a parse edilip edilmediğini kontrol edeceğim.
+error örneğiyle karşılaştırınca bir zerovalue örneği referansına dönüştürülemedi ancak
+error kendisi bir ref. type olduğu için dönen typi referens olarak dönüyoruz ve
+interfaceye gelen değer zaten adres olmaktadır.
+*/
+
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+)
+
+type school struct {
+	name string
+	id   int
+}
+
+func main() {
+	typo := school{name: "akif", id: 3}
+
+	interPreter(typo)
+
+	a := log.New(os.Stderr, "", log.Ldate)
+	a.Writer()
+
+}
+func interPreter(x interface{}) {
+	switch arg := x.(type) {
+	case string:
+		fmt.Println("bu bir string", arg)
+	case *school:
+		fmt.Println("bu bir schooldur")
+	}
+}

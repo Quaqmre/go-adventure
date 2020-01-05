@@ -1,0 +1,29 @@
+package main
+
+import "fmt"
+
+//Writer ilk interface WriteOver bunu implemente eden bir üst intefacedir
+type Writer interface {
+	Write()
+}
+
+//WriterOver üst interfacedir ve başka interfacelerde alabilir,
+type WriterOver interface {
+	Writer
+}
+
+// Bizim local interfacemizdir ,
+type localWriter struct {
+}
+
+func (e localWriter) Write() {
+	fmt.Printf("hello")
+}
+func WriteInterface(w WriterOver) {
+	w.Write()
+}
+
+func main() {
+	a := localWriter{}
+	WriteInterface(a)
+}

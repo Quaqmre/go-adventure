@@ -7,7 +7,6 @@ import (
 	"os"
 	"strings"
 )
-
 func main() {
 	r, w := io.Pipe()
 	t := new(bytes.Buffer)

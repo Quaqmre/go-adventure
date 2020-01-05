@@ -1,0 +1,27 @@
+package main
+
+import "fmt"
+
+type Writer interface {
+	Write()
+}
+
+type poem interface {
+}
+
+type deneme struct { //deneme Write Metodu override edildiği sürece Writer interfacesine dönüştürülemez.
+}
+
+func (d deneme) Write() {
+}
+
+func main() {
+
+	m := deneme{}
+	parser(m)
+}
+
+func parser(p poem) {
+	m, ok := p.(Writer)
+	fmt.Println(m, "**", ok)
+}

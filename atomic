@@ -1,0 +1,27 @@
+package main
+
+import (
+	"fmt"
+	"sync/atomic"
+)
+
+func main() {
+	a := int32(3)
+	b := int32(4)
+	c := int32(3)
+
+	fmt.Println(&a) // adreslerin hepsi farklı
+	fmt.Println(&b)
+	fmt.Println(&c)
+
+	atomic.SwapInt32(&a, b) //b değerini a ya atıyoruz ama adresler değişmemektedir,
+
+	fmt.Println(&a, a) //b değeri a yada atanmıştır
+	fmt.Println(&b, b) //
+
+	b = c // sadece valueler değişmektedir,adresler buradada değişmemektedir.
+
+	fmt.Println(&b, b) // c değeri b ye atanmıştır ama b adresi baştan beri aynı kalmaktadır.
+	fmt.Println(&c, c) //
+
+}

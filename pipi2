@@ -1,0 +1,28 @@
+package main
+
+import (
+	"bytes"
+	"fmt"
+	"io"
+	"os"
+)
+
+/*
+pipe oluşturduk bunu pipe writerdan yazıp writeri close ettik
+daha sonra readerda oluşan bilgileri almak için Bir buffer oluşturup içerisine aldık
+Bufferin tüm read string metotlarını kullanak bunu okuduk,
+*/
+func main() {
+	r, w := io.Pipe()
+
+	go func() {
+		w.Write([]byte{97, 97, 97, 97})
+		w.Close()
+	}()
+
+	reader := bytes.NewBuffer([]byte{})
+
+	io.Copy(reader, r)
+	fmt.Println(reader.String())
+	io.Copy(os.Stdout, reader)
+}

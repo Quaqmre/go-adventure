@@ -1,0 +1,20 @@
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	// buff := new(bytes.Buffer)
+	// buff.Write([]byte{1, 2, 3})
+	but := []byte{1, 2, 3, 4, 5}
+	but2 := but[:0] // Bir arrayi boşaltmak için kullanılmaktadır.
+	but3 := []byte{}
+	t := &but2
+	t2 := &but
+	_, _ = t, t2
+	fmt.Println(&but2)
+	fmt.Println(&but3)
+	// logger := log.New(buff, "Den", log.Ldate)
+	// logger.Output(3, "asdasd")
+}
