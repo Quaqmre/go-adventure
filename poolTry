@@ -1,0 +1,32 @@
+package main
+
+import (
+	"fmt"
+	"sync"
+	"unsafe"
+)
+
+type Product struct {
+	Name string
+	ID   int
+	ID1  string
+}
+
+func main() {
+	prPool := sync.Pool{
+		New: func() interface{} {
+			return new(Product)
+		},
+	}
+
+	item := prPool.Get().(*Product)
+	item.Name = "1"
+	item.ID = 3
+	prPool.Put(item)
+
+	a := prPool.Get().(*Product)
+	fmt.Println(a)
+	fmt.Println("")
+	fmt.Println(unsafe.Sizeof(Product{}))
+
+}
