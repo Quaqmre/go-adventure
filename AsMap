@@ -1,0 +1,19 @@
+package main
+
+import "fmt"
+
+type mapping struct {
+	name string
+}
+
+func (r *mapping) String() string {
+	return "heloo"
+}
+
+func main() {
+	t := new(mapping)
+	a := mapping{}
+	fmt.Println(t)
+	fmt.Println(a)
+
+}

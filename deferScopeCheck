@@ -1,0 +1,15 @@
+package main
+
+import (
+	"fmt"
+)
+
+func main() { //burada defer nerede olursa olsun ana scopun çıkmasıyla çalıştırılmaktadır.
+	fmt.Println("basladım")
+	if true {
+		defer fmt.Println("deferim")
+	}
+	fmt.Println("asdadasd")
+	defer fmt.Println("Main Defer")
+	defer fmt.Println("2.main defer")
+}

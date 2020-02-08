@@ -1,0 +1,27 @@
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+type tryDo struct {
+	syn  sync.Once
+	name string
+}
+
+func (t *tryDo) init(name string) error { // bir struct için bir kere çalıştırılmasını istediğimiz bir metot belirledik
+	t.syn.Do(func() {
+		fmt.Println(name)
+	})
+	return nil
+}
+
+func main() {
+	t := &tryDo{} // 1 kere init hakkımız var
+	a := &tryDo{} // 1 kere init hakkımız var
+	t.init("akif")
+	a = t // init fonksiyonu çalışan bir t objesi set edildiği için tekrar init çalıştırılamaz
+	a.init("ddd")
+	_ = t
+}

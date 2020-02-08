@@ -1,0 +1,24 @@
+package main
+
+import "fmt"
+
+type Exp string
+
+func expect(exp Exp, inputs ...interface{}) {
+	for _, arg := range inputs {
+		switch arg := arg.(type) {
+		case error:
+			fmt.Println(arg, exp)
+		}
+	}
+}
+
+func try(str string) error {
+	return fmt.Errorf("This is error \v", "s")
+}
+
+func main() {
+	a := try("denedim olmadı")
+	expect("burada eror wardır", a)
+
+}

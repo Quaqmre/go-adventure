@@ -1,0 +1,28 @@
+package main
+
+import "fmt"
+
+type logging struct {
+	logger func(info string, id int) // loggger("selam",10) şeklinde kullanılabilir çünkü o bir functiondır.
+}
+
+func main() {
+	// f := func(info string, i int) {
+	// 	for z := 0; z < i; z++ {
+	// 		fmt.Println(info)
+	// 	}
+	// }
+
+	rFunc := func() func(string, int) { //imza f te belli olduğu için değerlerin ismi önemli değil
+		return func(s string, i int) {
+			for z := 0; z < i; z++ {
+				fmt.Println(s)
+			}
+		}
+	}
+
+	returnedFunc := rFunc()
+	t := logging{logger: returnedFunc}
+
+	t.logger("hello there", 10)
+}

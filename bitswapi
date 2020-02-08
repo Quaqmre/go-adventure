@@ -1,0 +1,22 @@
+package main
+
+import (
+	"fmt"
+	"strconv"
+)
+
+func main() {
+	x := true
+	var y int64
+
+	if x {
+		y = 1
+	} else {
+		y = 0
+	}
+	g := y << 5
+
+	fmt.Println(strconv.FormatInt(y, 2))
+	fmt.Println(strconv.FormatInt(g, 2))
+	fmt.Println(g)
+}

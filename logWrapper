@@ -1,0 +1,39 @@
+package main
+
+import (
+	"log"
+	"net/http"
+)
+
+const requestIDKey = 42
+
+func main() {
+	finalHandler := http.HandlerFunc(handler)
+	http.Handle("/akif", middlewareOne(finalHandler))
+	log.Fatal(http.ListenAndServe("127.0.0.1:8080", nil))
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	http.Error(w, "Hello", 404)
+}
+
+type akif struct {
+	http.ResponseWriter
+}
+
+func (a akif) Header() http.Header {
+	return a.ResponseWriter.Header()
+}
+func (a akif) Write(b []byte) (int, error) {
+
+	return a.ResponseWriter.Write(b)
+}
+func (a akif) WriteHeader(statusCode int) {
+	a.ResponseWriter.WriteHeader(statusCode)
+}
+func middlewareOne(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		t := akif{ResponseWriter: w}
+		next.ServeHTTP(t, r)
+	})
+}

@@ -1,0 +1,25 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	t := true
+	ch := make(chan struct{})
+	go func() {
+		for t {
+			fmt.Println("selam Mert")
+			time.Sleep(time.Second * 1)
+		}
+	}()
+	go func() {
+		for t {
+			fmt.Println("selam Akif")
+			time.Sleep(time.Second * 1)
+		}
+	}()
+	fmt.Println("wellcomen infinite l")
+	<-ch
+}

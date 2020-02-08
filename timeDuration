@@ -1,0 +1,15 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	start := time.Now()
+	time.Sleep(time.Second)
+	t := time.Since(start)
+	if t > time.Duration(time.Second*3) {
+		fmt.Println("evet")
+	}
+}
