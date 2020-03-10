@@ -1,0 +1,103 @@
+package main
+
+import (
+	"fmt"
+)
+
+type Record map[string]interface{}
+
+type Behevior struct {
+	data   map[int64]Record
+	nextID func() int64
+}
+type searchResult map[int64]Record
+
+// All function means all of data
+func (b *Behevior) All(f func(Record) bool) (r searchResult, err error) {
+	search := make(searchResult)
+	for id, v := range b.data {
+		r := f(v)
+		if r {
+			search[id] = v
+		}
+	}
+	return search, nil
+}
+
+type QueryFunc func(Record) (key string, result bool)
+
+func (q QueryFunc) Key(key string) QueryFunc {
+	q = func(records Record) (string, bool) {
+		return key, true
+	}
+	return q
+}
+
+func (q QueryFunc) Between(after, before int) QueryFunc {
+	if q == nil {
+		return func(records Record) (string, bool) {
+			return "", false
+		}
+	}
+	nFunc := func(records Record) (string, bool) {
+		pKey, pResult := q(records)
+		v, ok := records[pKey]
+		if !ok {
+			return pKey, false
+		}
+		switch v.(type) {
+		case int:
+			if res := (after < v.(int) && v.(int) < before); res {
+				return pKey, res && pResult
+			}
+		default:
+			return pKey, false
+		}
+		return pKey, false
+	}
+	return nFunc
+}
+
+func (q QueryFunc) Or(queries ...QueryFunc) QueryFunc {
+	nq := func(records Record) (key string, result bool) {
+		for _, q := range queries {
+			key, result = q(records)
+			if result == true {
+				return
+			}
+		}
+		return
+	}
+	return nq
+}
+
+func (q QueryFunc) End() func(Record) bool {
+	f := func(r Record) bool {
+		_, result := q(r)
+		return result
+	}
+	return f
+}
+
+func main() {
+
+	// r := make(Record)
+	// str := strings.NewReader(`{"time": "15", "number": 126}`)
+	// _ = json.NewDecoder(str).Decode(&r)
+
+	data := make(Record)
+	data["time"] = 10
+	listim := Behevior{data: make(map[int64]Record)}
+	listim.data[12] = data
+	data1 := make(Record)
+	data1["time"] = 13
+	listim.data[13] = data1
+
+	var query QueryFunc
+	t, _ := listim.All(query.Or(
+		query.Key("time").Between(9, 12),
+	).End())
+
+	fmt.Println(t)
+
+}

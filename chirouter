@@ -1,0 +1,65 @@
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"os"
+
+	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
+)
+
+func main() {
+	r := chi.NewRouter()
+	r.Use(middleware.Recoverer)
+	r.Use(middleware.RequestID)
+	r.Use(den)
+	// r.Use(middleware.RealIP)
+	// r.Use(middleware.DefaultCompress)
+	// r.Use(middleware.Timeout(15 * time.Second))
+
+	// r.Use(logging.NewStructuredLogger(logger))
+	// r.Use(render.SetContentType(render.ContentTypeJSON))
+	r.Get("/ping", func(w http.ResponseWriter, r *http.Request) {
+		t := w.Header().Get("Den")
+		fmt.Println(t)
+		cn := r.Context()
+		val := middleware.GetReqID(cn)
+		fmt.Println(val)
+		w.Write([]byte("pong"))
+		fmt.Println(os.Hostname())
+	})
+	r.Get("/den", func(w http.ResponseWriter, r *http.Request) {
+		t, _ := ioutil.ReadAll(r.Body)
+		fmt.Println(string(t))
+	})
+	srv := http.Server{
+		Addr:    "localhost:3001",
+		Handler: r,
+	}
+	srv.ListenAndServe()
+	// k := []int32{10, 20, 20, 10, 10, 30, 50, 10, 20}
+
+	// mp := make(map[int32]int32)
+
+	// for _, i := range k {
+	// 	mp[i] = mp[i] + 1
+	// }
+	// var holder int32
+	// for _, i := range mp {
+	// 	if i > 2 {
+	// 		holder = holder + i/2
+	// 	}
+	// }
+	// fmt.Println(holder)
+}
+
+func den(next http.Handler) http.Handler {
+	fn := func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("den", "ddd")
+		next.ServeHTTP(w, r)
+	}
+	return http.HandlerFunc(fn)
+
+}

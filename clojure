@@ -1,0 +1,45 @@
+package main
+
+import "fmt"
+
+type child func() int
+
+func (m child) Next() {
+	m()
+}
+
+func main() {
+	_ = smalscope()
+
+	// //Deneme Channel
+	// fmt.Println("aaaaaaaaaaaaaaaaaaaaa")
+	// ch := make(chan int)
+	// close(ch)
+	// select {
+	// case t, ok := <-ch:
+	// 	if ok {
+	// 		fmt.Println(t)
+	// 	} else {
+	// 		break
+	// 	}
+	// }
+}
+
+func mother() child {
+	i := 0
+	return func() int {
+		defer func() { i++ }()
+		fmt.Println(i)
+		return i
+	}
+}
+
+func smalscope() child {
+	c := mother()  //0 1
+	c1 := mother() //0 1
+	c.Next()
+	c.Next()
+	c1.Next()
+	c1.Next()
+	return c
+}

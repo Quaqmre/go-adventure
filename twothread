@@ -1,0 +1,32 @@
+package main
+
+import (
+	"runtime"
+	"time"
+)
+
+var den int = 0
+
+func main() {
+	runtime.GOMAXPROCS(8)
+
+	go art()
+	go art2()
+	go art2()
+	go art2()
+	go art()
+	go art()
+	time.Sleep(time.Second * 5)
+
+}
+
+func art() {
+	for {
+		den = den + 1
+	}
+}
+func art2() {
+	for {
+		den = den + 1
+	}
+}

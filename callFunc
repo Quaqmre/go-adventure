@@ -1,0 +1,20 @@
+package main
+
+import "fmt"
+
+type recursivFunc func(i *int) recursivFunc // Kendini dönen bir metot tanımladık
+
+func main() {
+
+	i := 0
+	var t recursivFunc // bunu initial ettik
+
+	t = func(i *int) recursivFunc { // imzası belli olan recursivFunc tipini overright edek bir metot oluşturduk
+		*i++
+		return t // kendini dönmeyi sağlanarak tekrar tekrar execute edilebilmesini sağladık
+	}
+	for i < 10 {
+		t = t(&i) //içine atanan int değerini check ederek kaç kere çalışması gerektiğini gelirttik.
+	}
+	fmt.Println(i)
+}

@@ -1,0 +1,43 @@
+package main
+
+import (
+	"fmt"
+
+	fuzz "github.com/google/gofuzz"
+)
+
+func main() {
+
+	type MyType struct {
+		A int
+		B string
+		C rune
+		D struct {
+			E string
+		}
+	}
+	f := fuzz.New().Funcs(
+		func(i *string, c fuzz.Continue) {
+			*i = *i + "i"
+		},
+		func(i *int, c fuzz.Continue) {
+			*i = *i + 1
+		},
+		func(i *rune, c fuzz.Continue) {
+			*i = 'c'
+		},
+	)
+	object := MyType{}
+
+	uniqueObjects := map[MyType]int{}
+
+	for i := 0; i < 3; i++ {
+		f.Fuzz(&object)
+		// if object.A != i {
+		// 	fmt.Printf("Unexpected value: %#v\n", object)
+		// }
+		uniqueObjects[object]++
+	}
+	fmt.Println(uniqueObjects)
+
+}

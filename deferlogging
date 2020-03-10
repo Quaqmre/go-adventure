@@ -1,0 +1,32 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+type asd interface { //service interfacemiz bunu 2 kere implemente edeceğiz
+	service() error
+}
+
+type logger struct { //logger bizim millewaremiz ve next metodumuzun dönüştiplerini loglayacak
+	next asd
+}
+type serv struct{} //serv herhangi bir servis tanımlamasıdır
+
+func (s serv) service() error { //service içerisindeki service metodu bir error dönmektedir.
+	return errors.New("deneme")
+}
+
+func main() {
+	s := serv{}
+	l := logger{next: s}
+	l.service()
+}
+
+func (l logger) service() (err error) { //logger wraplediği service metodundan dönen errorü loglamaktadır.
+	defer func() {
+		fmt.Println(err)
+	}()
+	return l.next.service()
+}

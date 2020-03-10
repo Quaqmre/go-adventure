@@ -1,0 +1,46 @@
+package main
+
+import (
+	"bytes"
+	"fmt"
+	"math/big"
+)
+
+type biggerInt struct {
+	low  int
+	high int
+	last int
+	*big.Int
+}
+
+func main() {
+	var i biggerInt
+	i.Int = big.NewInt(0) // bit işlemleri için kullanılmakta
+	i.low = 1
+	i.high = 10
+	i.Int.SetBit(i.Int, 0, 1) // bit olarak setlenebilme yapılmaktadır
+	i.Int.SetBit(i.Int, 1, 1)
+	i.Int.SetBit(i.Int, 2, 1)
+	i.Int.SetBit(i.Int, 5, 1)
+	i.Int.SetBit(i.Int, 6, 1)
+	i.Int.SetBit(i.Int, 8, 1)
+
+	t := i.bitsearcher()
+	fmt.Println(t.String())
+}
+func (b *biggerInt) bitsearcher() bytes.Buffer { // bitlerin nerelerde setlendiğini araştırıyoruz
+	buf := &bytes.Buffer{}
+	for low := b.low; low <= b.high; low++ {
+		high := low
+		for b.Int.Bit(high-b.low) == 1 && high <= b.high { //bit çek yapılıyor
+			high++ // bit varsa bir sonrakini aramak için artı yapılır
+		}
+		if high > low+1 { //sıralı bit 1 yapılmışmı check et
+			fmt.Fprintf(buf, "%d..%d-", low, high-1)
+		} else if high > low { // tekil bir bit set edilmişse yaz
+			fmt.Fprintf(buf, " %d", high-1)
+		}
+		low = high
+	}
+	return *buf
+}

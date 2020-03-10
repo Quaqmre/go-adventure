@@ -1,0 +1,15 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main(){
+	defer func(t time.Time){
+		fmt.Println(t) // ancak gönderilen x yazılmaktadır çünkü akışta x gönderilmiştir sonradan çalıştığı için x+5 yazması beklenmez
+	}(time.Now())//burada gönderilen input işlem akışına göre gönderilir gönderilen x saniyesi
+	fmt.Println(time.Now())//x saniyesini yazar
+	time.Sleep(time.Second*5)//x saniyesine 5 ekler
+	fmt.Println("bu main içi:",time.Now())//x+5 i yazar
+}

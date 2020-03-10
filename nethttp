@@ -1,0 +1,22 @@
+package main
+
+import (
+	"fmt"
+	"net/http"
+
+	"github.com/gorilla/mux"
+)
+//http handle and serve
+func main() {
+
+	r := mux.NewRouter()
+	r.Methods("POST").Path("/den").HandlerFunc(deneme)
+
+	http.Handle("/", r)
+	http.ListenAndServe(":8080", nil)
+
+}
+
+func deneme(r http.ResponseWriter, w *http.Request) {
+	fmt.Fprint(r, "selam babalık")
+}

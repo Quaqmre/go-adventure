@@ -1,0 +1,30 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"time"
+)
+
+func main() {
+	ctx := context.Background()                            //bir context oluşturuldu
+	ctx, cancel := context.WithTimeout(ctx, time.Second*3) //contextin timeout süresi verildi
+	defer cancel()                                         // gerektiin de bu kapatalıacak
+	infinit(ctx)                                           //metoda bu context gönderildi çünkü context time outa düştüğü anda metottan çıkmasını ve prossesi sonlandırmasını istiyorum
+	fmt.Println("ancak bittim")                            // infinit metodunun döndüğünü belirtir
+	time.Sleep(time.Second * 10)                           // infinit metodunun çalışıp çalışmadığını kontrol ediyorum
+}
+
+func infinit(ctx context.Context) {
+	t := true
+	go func() { // sürekli dönmekte go routine olarak başlatıyorum ama onu oluşturan child prosses metot olarak çıksada arkadaş dönmeye devam etmekte,
+		for t {
+			fmt.Println("asd")
+			time.Sleep(time.Millisecond * 200)
+		}
+	}()
+
+	<-ctx.Done()
+	t = false // bu şekilde infinit loopu durdurarak gereksiz prossesi engelliyoruz
+	fmt.Println("bitti olm bitti")
+}

@@ -1,0 +1,20 @@
+package main
+
+import (
+	"fmt"
+)
+
+type myfunc func(int) int // bir func türünde bir değişken tanımladık
+
+func (mf myfunc) squerefunc(i int) int { //function türümüze bir metot atadık
+	return mf(i) + i
+}
+
+func main() {
+	var implementedFunc myfunc
+	implementedFunc = func(in int) int { //func türünde bir method yazdık
+		return in * in
+	}
+
+	fmt.Println(implementedFunc.squerefunc(2)) //metodun metodunu çağırdık
+}
