@@ -1,0 +1,24 @@
+// package main
+
+// import (
+// 	"errors"
+// 	"fmt"
+// )
+
+// func main() {
+// 	x, y := 0, 2
+// 	sonuc, err := bölme(x, y, "*")
+// 	if err != nil {
+// 		fmt.Println(err.Error())
+// 		sonuc, err = bölme(x+15, y, "*")
+// 	}
+// 	fmt.Println(sonuc)
+
+// }
+
+// func bölme(x, y int, op string) (int, error) {
+// 	if x == 0 {
+// 		return 0, errors.New("x sıfır olamaz")
+// 	}
+// 	return x / y, nil
+// }

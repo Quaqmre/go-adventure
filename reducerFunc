@@ -1,0 +1,29 @@
+package main
+
+import "fmt"
+
+func main() {
+	t := reducer()
+	t()
+	t()
+	t()
+
+	person := classFunc()
+	n, l := person("akif", "tatar")
+	fmt.Println(n, l)
+}
+
+func reducer() func() {
+	i := 0
+	return func() {
+		i = i + 1
+		fmt.Println(i)
+	}
+}
+
+func classFunc() func(name, lastname string) (string, string) {
+	fmt.Println("I executed only once")
+	return func(name, lastname string) (string, string) {
+		return name, lastname
+	}
+}

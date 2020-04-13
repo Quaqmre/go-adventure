@@ -1,0 +1,17 @@
+package main
+
+import "fmt"
+
+func main() {
+	t := []int32{1, 2, 3, 4}
+	g := reverseArray(t)
+	fmt.Println(g)
+}
+
+func reverseArray(a []int32) []int32 {
+	list := []int32{}
+	for i := len(a); i > 0; i-- {
+		list = append(list, a[i-1])
+	}
+	return list
+}

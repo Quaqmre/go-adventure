@@ -1,0 +1,27 @@
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ch, out := exitFuncWitoutwaitchannel()
+	fmt.Println(*out)
+	fmt.Println("çıktım vula")
+	fmt.Println(<-ch)
+	fmt.Println(*out)
+}
+
+func exitFuncWitoutwaitchannel() (chan string, *int) {
+	t := 0 // side efecttin babasını yapacaklar bu değişkene
+	ch := make(chan string)
+	go func() {
+		time.Sleep(time.Second * 5)
+		t = 3 // ancak burada mother func çıkmış olmasına rağmen gidip bir üst değişkeni Wdeğiştiriyorum.Buda ana program akışında karışıklıklara yol açacaktır.
+		// örneğin dönen t değişkeniyle hesaplama yapılsın ve goroutune sonrası tekrar t kullanıldığında 2 hesaplanan değer bir birine eşit olamyacaktır.
+		// çözüm:Don’t communicate by sharing memory, share memory by communicating
+		ch <- "ben yolladım"
+	}() // gorotune de çalışıyor ama mother func çıkmakta.
+	return ch, &t // çok güzel bir şekilde hesaplanmış bir t ' yi dönmekteyim bu değişkeni döndüğüm gibi kullanıyorum
+}

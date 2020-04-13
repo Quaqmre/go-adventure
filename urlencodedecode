@@ -1,0 +1,13 @@
+package main
+
+import (
+	"fmt"
+	"net/url"
+	"os"
+)
+
+func main() {
+	urlstring := os.Args[1]
+	a, _ := url.QueryUnescape(urlstring)
+	fmt.Println(a)
+}

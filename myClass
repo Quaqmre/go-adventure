@@ -1,0 +1,22 @@
+// package main
+
+// func main() {
+
+// }
+
+// type myfunc func()
+
+// func deneme() (m myfunc) {
+
+// 	var den string
+
+// 	func (t myFunc)Set(s string){
+// 		den=s
+// 	}
+	
+// 	return m
+// }
+
+// func (myfunc) Set(string) {
+
+// }
