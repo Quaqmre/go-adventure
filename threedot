@@ -1,0 +1,28 @@
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	list := []int{1, 2, 3, 4, 5}
+	getarray(list...) // arrayi açarak atama yapabilirsin çünkü farklı sayıda int almakta
+	getarray(returnlotofint())
+	getarray(returnseperetint()...)
+
+	fmt.Println([]int{1, 2, 3})
+}
+
+func getarray(a ...int) { // intleri yayarak atama yapabilirsin, direk olarak array almamaktadır.
+	for _, i := range a {
+		fmt.Println(i)
+	}
+}
+
+func returnlotofint() (int, int, int, int) {
+	return 1, 2, 3, 4
+}
+
+func returnseperetint() []int {
+	return []int{1, 2, 3, 4}
+}

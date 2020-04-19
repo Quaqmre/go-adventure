@@ -1,0 +1,18 @@
+package main
+
+import (
+	kitlog "github.com/go-kit/kit/log"
+)
+
+func main() {
+
+	logger := kitlog.NewLogfmtLogger(kitlog.StdlibWriter{})
+	logger.Log("test", "testvalue")
+
+	// logger := kitlog.NewJSONLogger(kitlog.NewSyncWriter(os.Stdout))
+
+	// logger.Log("test", "testvalue", "str", "strvalue")
+
+	// stdlog.SetOutput(kitlog.NewStdlibAdapter(logger))
+	// stdlog.Print("I sure like pie")
+}

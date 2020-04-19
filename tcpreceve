@@ -1,0 +1,38 @@
+package main
+
+import (
+	"fmt"
+	"os"
+
+	"github.com/go-kit/kit/log"
+)
+
+func main() {
+
+	// con, _ := net.Dial("tcp", "localhost:9001")
+
+	// con.Write([]byte("akif"))
+
+	msg := fmt.Sprintf("%s: %s", "akif", "test")
+
+	fmt.Println(msg)
+
+	t := test{
+		name: "akif",
+	}
+
+	fmt.Printf("%#v\n", t)
+
+	testt("a", "s", "d")
+
+}
+
+type test struct {
+	name string
+}
+
+func testt(t ...interface{}) {
+	logger := log.NewLogfmtLogger(os.Stdout)
+	logger.Log("deneme", "123", t)
+
+}

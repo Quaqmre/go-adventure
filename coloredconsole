@@ -1,0 +1,28 @@
+package main
+
+import (
+	"bytes"
+	"fmt"
+
+	"github.com/fatih/color"
+	"github.com/mattn/go-colorable"
+)
+
+func main() {
+
+	c := color.New(color.FgCyan).Add(color.Underline)
+	_ = c
+	ar := []byte{}
+	buf := bytes.NewBuffer(ar)
+	c.Fprint(buf, "testdeneme")
+
+	// fmt.Println(buf.String())
+	Output := colorable.NewColorableStdout()
+	fmt.Fprint(Output, buf.String())
+	// a := []byte(fmt.Sprint("\\e[32m"))
+	// buf.Write(a)
+
+	// buf.WriteString("test123")
+	// buf.WriteString("\\e[0m")
+	// fmt.Println(buf.String())
+}
