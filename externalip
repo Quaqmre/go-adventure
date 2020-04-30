@@ -1,0 +1,94 @@
+package main
+
+import (
+	"errors"
+	"fmt"
+	"net"
+	"net/http"
+	"sync"
+
+	externalip "github.com/glendc/go-external-ip"
+	"github.com/go-chi/chi"
+)
+
+func main() {
+
+	// Create the default consensus,
+
+	consensus := externalip.DefaultConsensus(nil, nil)
+	// Get your IP,
+	// which is never <nil> when err is <nil>.
+	ip, err := consensus.ExternalIP()
+	if err == nil {
+		fmt.Println(ip.String()) // print IPv4/IPv6 in string format
+	}
+	list, _ := getip()
+	r := chi.NewRouter()
+
+	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "tüm interfacelerde yayınlanmaktadır. %s", "test")
+	})
+
+	// a := fmt.Sprintf("%s:%d", "192.168.56.1", 3001)
+
+	// _, err = net.Listen("tcp", a)
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	port := 3000
+	var grup sync.WaitGroup
+	list = append(list, "172.19.84.177")
+	for _, ipa := range list {
+		grup.Add(1)
+		go func(s string) {
+			a := fmt.Sprintf("%s:%d", s, port)
+			fmt.Println(a)
+			srv := http.Server{
+				Addr:    a,
+				Handler: r,
+			}
+			srv.ListenAndServe()
+		}(ipa)
+		port = port + 1
+
+	}
+	grup.Wait()
+}
+
+func getip() ([]string, error) {
+	a := []string{}
+	ifaces, err := net.Interfaces()
+	if err != nil {
+		return nil, err
+	}
+	for _, iface := range ifaces {
+		ip, err := FindIP(iface)
+		if err != nil {
+			continue
+		}
+		if ip == "192.168.1.39" {
+			var i int = 0
+			_ = i
+		}
+		a = append(a, ip)
+	}
+	return a, nil
+}
+func FindIP(iface net.Interface) (string, error) {
+	addrs, err := iface.Addrs()
+	if err != nil {
+		return "", err
+	}
+	for _, addr := range addrs {
+		if ipnet, ok := addr.(*net.IPNet); ok {
+			if ipnet.IP.IsLinkLocalUnicast() {
+				continue
+			}
+			if ipnet.IP.To4() != nil {
+				return ipnet.IP.String(), nil
+			}
+			return "[" + ipnet.IP.String() + "]", nil
+		}
+	}
+	return "", errors.New("Unable to find an IP for this interface")
+}

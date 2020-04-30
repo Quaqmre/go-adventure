@@ -1,0 +1,14 @@
+package main 
+
+import (
+	"fmt"
+
+	"github.com/pkg/errors"
+)
+
+func main(){
+	ert := errors.New("deneme bir errordür bu")
+	err:=errors.Wrap(ert,"selam")
+
+	fmt.Println(err)
+}

@@ -1,0 +1,28 @@
+package main
+
+import (
+	"encoding/base32"
+	"fmt"
+	"io"
+	"io/ioutil"
+)
+
+func test(chunks [][]byte) {
+	pr, pw := io.Pipe()
+	go func() {
+		for _, chunk := range chunks {
+			pw.Write(chunk)
+		}
+		pw.Close()
+	}()
+	output, err := ioutil.ReadAll(base32.NewDecoder(base32.StdEncoding, pr))
+	fmt.Printf("%+q -> %+q %v\n", chunks, output, err)
+}
+
+func main() {
+	input := []byte("I4======N4======")
+	// input := []byte("I5XQ===============")
+	for i := 0; i < len(input)+1; i++ {
+		test([][]byte{input[:i], input[i:]})
+	}
+}

@@ -1,0 +1,21 @@
+import  t "github.com/ahmetb/go-linq"
+
+type Car struct {
+    year int
+    owner, model string
+}
+
+
+
+func main(){
+	
+	var owners []string
+
+	cars:=[]Car{{year:2016,owner:"akif"},{year:2017,owner:"deneme"}}
+	
+	From(cars).Where(func(c interface{}) bool {
+		return c.(Car).year >= 2015
+		}).Select(func(c interface{}) interface{} {
+			return c.(Car).owner
+			}).ToSlice(&owners)
+}

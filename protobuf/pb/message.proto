@@ -1,0 +1,24 @@
+syntax="proto3";
+
+package main;
+
+message Message {
+  oneof content {
+    Hello           hello             = 1;
+    Pong            pong              = 2;
+    Space           space             = 3;
+  }
+}
+
+message Hello {
+  uint32 myId = 1;
+  map<uint32, string> idToUsername = 2;
+}
+message Pong {
+  uint32 Id = 1;
+}
+message Space {
+  uint32 physicsFrameID = 1;
+  repeated int32 spaceships = 2;
+  repeated string asteroids = 3;
+}

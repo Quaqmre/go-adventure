@@ -3,14 +3,14 @@
 <title>WebSocket Test</title>
 <script language="javascript" type="text/javascript">
 
-    var wsUri = "ws://localhost:8080/deneme";
+    var wsUri = "ws://localhost:4000/";
     var output;
 
     function init() {
         output = document.getElementById("output");
         testWebSocket();
         sendTomesage();
-        sendTodisc();
+        // sendTodisc();
     }
 
     function testWebSocket() {
@@ -20,6 +20,7 @@
         websocket.onmessage = function (evt) { onMessage(evt) };
         websocket.onerror = function (evt) { onError(evt) };
     }
+
 
     function onOpen(evt) {
         writeToScreen("CONNECTED");
@@ -56,7 +57,8 @@
         button.value = "I'am sender"
         button.onclick = () => doSend("Iam button babalık")
         output.appendChild(button);
-    } function sendTodisc() {
+    }
+    function sendTodisc() {
         var button = document.createElement("input");
         button.type = "button"
         button.value = "disc"

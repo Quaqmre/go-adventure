@@ -1,0 +1,32 @@
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/golang/protobuf/proto"
+)
+
+func main() {
+	m := make(map[uint32]string)
+	m[3] = "deneme"
+	message := &Message{
+		Content: &Message_Hello{
+			Hello: &Hello{
+				MyId:         4,
+				IdToUsername: m,
+			},
+		},
+	}
+	data, err := proto.Marshal(message)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	newMes := &Message{}
+
+	proto.Unmarshal(data, newMes)
+
+	fmt.Printf("&#v", newMes)
+}

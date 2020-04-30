@@ -15,7 +15,7 @@ var (
 
 func main() {
 	flag.Parse()
-	conn, _ := net.Dial("tcp", "localhost:9001")
+	conn, _ := net.Dial("tcp", "localhost:9001/hijack")
 	log.Println("Incoming client connection")
 	go func() {
 		for {

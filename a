@@ -1,0 +1,18 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+)
+
+func main() {
+	handler := func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "iiii çocuklar kaç ramazandır oru tutamıyorum.")
+	}
+
+	http.HandleFunc("/", handler)
+	log.Println("Server running...")
+
+	http.ListenAndServe("192.168.1.43:9001", nil)
+}

@@ -1,0 +1,29 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"time"
+)
+
+func main() {
+	fmt.Println("başladım.")
+	ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond*5000)
+	defer cancel()
+
+	go infinitloop(ctx)
+	fmt.Println("çıktım ola")
+	time.Sleep(time.Second * 7)
+}
+
+func infinitloop(ctx context.Context) {
+	for {
+		select {
+		case <-ctx.Done():
+			fmt.Println("ctx expired")
+			return
+		default:
+			fmt.Println("dönmekteyim")
+		}
+	}
+}
