@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/go-redis/redis"
 )
@@ -43,7 +42,19 @@ func main() {
 	// client.LPush("mylist", "soldan eklendi").Result()
 	// client.LTrim("mylist", 0, 2).Result() // son eklenen 3 item dışındakileri siler
 
-	l, _ := client.BRPop(time.Second*50, "mylist3").Result() // block the code if list null and wait when some item added mylist3
-	fmt.Println(l)
+	// l, _ := client.BRPop(time.Second*50, "mylist3").Result() // block the code if list null and wait when some item added mylist3
+
+	type okul struct {
+		Name string
+	}
+	// client.HSet("test", "asd", "qwe", "fff", "ggg")
+
+	result := client.HExists("test", "asd")
+	fmt.Println(result.Val())
+	fmt.Println(client.HLen("test"))
+
+	fmt.Println(client.HGetAll("test").Val())
+
+	// fmt.Println(l)
 
 }

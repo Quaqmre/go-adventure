@@ -1,0 +1,26 @@
+package main
+
+import (
+	"bytes"
+	"fmt"
+	"io"
+	"os"
+	"strings"
+)
+
+func main() {
+	r, w := io.Pipe()
+	t := new(bytes.Buffer)
+	read2 := strings.NewReader("2.Selam")
+	read3 := strings.NewReader("3.Selam")
+	_ = io.MultiReader(read2, read3)
+	mw := io.MultiWriter(t, os.Stdin, os.Stderr)
+
+	go func() {
+		fmt.Fprintln(w, "hey reader")
+		fmt.Fprintln(mw, "hey guys")
+		w.Close()
+	}()
+	io.Copy(os.Stdout, r)
+	fmt.Println(t)
+}

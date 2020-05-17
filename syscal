@@ -1,0 +1,11 @@
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Println("hello")
+	a := []byte{1, 2, 3, 4, 5, 6, 0, 0, 0, 8, 8, 98, 9, 9, 89, 8, 9, 8, 9, 8, 9, 8, 9}
+	fmt.Println(a)
+}

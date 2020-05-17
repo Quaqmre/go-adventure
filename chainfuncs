@@ -1,0 +1,34 @@
+package main
+
+import "fmt"
+
+type Middleware func(Endpoint) Endpoint
+
+type Endpoint func(string) string
+
+func Chain(f Middleware, other ...Middleware) Middleware {
+	return func(next Endpoint) Endpoint {
+		for i := len(other) - 1; i > -1; i-- {
+			next = other[i](next)
+		}
+		return f(next)
+	}
+}
+
+func myendpoint(s string) string {
+	return s
+}
+func middleware(s string) Middleware {
+	fmt.Println(s, "başladı")
+	return func(next Endpoint) Endpoint {
+		return func(t string) string {
+			defer fmt.Println(s, "bitti")
+			return next(t)
+		}
+	}
+}
+
+func main() {
+	Chain(middleware("first"), middleware("second"), middleware("third"))(myendpoint)("test")
+	// Expected first başladı \n second başladı \n third başladı \ third bitti \n second bitti \n first bitti \n
+}

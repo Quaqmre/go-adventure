@@ -1,0 +1,62 @@
+package main
+
+import (
+	"fmt"
+	"reflect"
+)
+
+type school struct {
+	name string
+	cap  int
+}
+
+func main() {
+
+	// yusuf := school{name: "yusufZiya", cap: 120}
+
+	// var eI interface{}
+	// eI = yusuf
+
+	// typeStr := reflect.TypeOf(eI)
+	// valueStr := reflect.ValueOf(eI)
+	// if typeStr.Kind() == reflect.Struct {
+	// 	fmt.Println("Ben struckım")
+	// 	n := typeStr.NumField()
+	// 	for i := 0; i < n; i++ {
+	// 		tt := typeStr.Field(i)
+	// 		fmt.Printf("---Field Name is %v,Field Type is %v\n", tt.Name, tt.Type)
+	// 	}
+	// }
+	// var s school
+
+	// mValue := reflect.ValueOf(&s).Elem() //schoolu point et
+	// mType := mValue.Type()               // point edilen yerin tipini al
+	// ret := make([]school, 0, 10)         // oluşturulcak structı atayacak array
+	// if typeStr.ConvertibleTo(mType) {    // point edilen yerin typı dönüşüyormu interfaceden gelen itemin typına
+	// 	mValue.Set(valueStr.Convert(mType)) //dönüşüyorsa pointera value set et,
+	// 	ret = append(ret, s)                // oluşturulan itemi arraye ekle, Güzel bir generic hikaye
+	// }
+	// fmt.Println(ret)
+
+	// // ------------------------------------- new line
+	t := func(i *int) {
+		fmt.Println(*i)
+	}
+	reflector(t)
+}
+func reflector(in ...interface{}) {
+	for i := range in {
+		v := reflect.ValueOf(in[i])
+		if v.Kind() == reflect.Func {
+			fmt.Println("evet ben bir funcionum")
+		}
+		t := v.Type()
+		inParams := t.NumIn()
+		fmt.Print(inParams)
+		outParams := t.NumOut()
+		fmt.Print(outParams)
+
+		argF := t.In(0)
+		fmt.Println(argF)
+	}
+}

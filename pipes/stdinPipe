@@ -1,0 +1,42 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"io"
+	"os"
+	"os/signal"
+)
+
+func main() {
+	signals := make(chan os.Signal)
+	signal.Notify(signals, os.Interrupt)
+
+	fi, err := os.Stdin.Stat()
+	if fi.Mode()&os.ModeNamedPipe == 0 {
+		fmt.Fprintf(os.Stdout, "Nothing is piped in so there is nothing to log!")
+	}
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Could not start strdin %v", err)
+	}
+	s := bufio.NewScanner(io.TeeReader(os.Stdin, os.Stdout))
+	log := make(chan string)
+
+	go func() {
+		for s.Scan() {
+
+			log <- s.Text()
+		}
+	}()
+loop:
+	for {
+		select {
+		case s := <-log:
+			fmt.Fprintf(os.Stdout, "->%v\n", s)
+		case i := <-signals:
+			fmt.Fprintf(os.Stdout, "interreted %v", i)
+			break loop
+		}
+	}
+
+}
